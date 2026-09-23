@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Habsida Security</title>
+
+    <link rel="stylesheet"
+          th:href="@{/css/style.css}">
+</head>
+
+<body>
+
+<div class="landing">
+
+    <nav class="landing-nav">
+
+        <div class="brand">
+            Habsida<span>.</span>
+        </div>
+
+        <a class="nav-login"
+           th:href="@{/login}">
+            Sign in
+        </a>
+
+    </nav>
+
+    <main class="hero">
+
+        <div class="hero-content">
+
+            <div class="hero-badge">
+                Spring Security • Role Based Access
+            </div>
+
+            <h1>
+                Secure access.
+                <span>Simple management.</span>
+            </h1>
+
+            <p>
+                A role-based user management platform built with
+                Spring Boot, Spring Security, JPA, MySQL and Thymeleaf.
+            </p>
+
+            <div class="hero-actions">
+
+                <a class="btn btn-primary"
+                   th:href="@{/login}">
+                    Get started
+                </a>
+
+                <a class="btn btn-secondary"
+                   href="#features">
+                    Explore features
+                </a>
+
+            </div>
+
+        </div>
+
+    </main>
+
+    <section class="features"
+             id="features">
+
+        <div class="feature-card">
+
+            <div class="feature-icon">
+                A
+            </div>
+
+            <h3>Admin Management</h3>
+
+            <p>
+                Administrators can create, edit and delete
+                users while managing their roles.
+            </p>
+
+        </div>
+
+        <div class="feature-card">
+
+            <div class="feature-icon">
+                U
+            </div>
+
+            <h3>User Dashboard</h3>
+
+            <p>
+                Authenticated users can access their own
+                profile and account information.
+            </p>
+
+        </div>
+
+        <div class="feature-card">
+
+            <div class="feature-icon">
+                S
+            </div>
+
+            <h3>Secure Authentication</h3>
+
+            <p>
+                Database-backed authentication with BCrypt
+                password hashing and role-based authorization.
+            </p>
+
+        </div>
+
+    </section>
+
+</div>
+
+</body>
+</html>

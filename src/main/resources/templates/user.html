@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>User Dashboard</title>
+
+    <link rel="stylesheet"
+          th:href="@{/css/style.css}">
+</head>
+
+<body>
+
+<div class="dashboard">
+
+    <header class="topbar">
+
+        <div class="topbar-left">
+
+            <div class="brand">
+                Habsida<span>.</span>
+            </div>
+
+            <div>
+                <div class="page-title">
+                    User Dashboard
+                </div>
+
+                <div class="page-subtitle">
+                    Your account
+                </div>
+            </div>
+
+        </div>
+
+        <form class="logout-form"
+              th:action="@{/logout}"
+              method="post">
+
+            <button class="logout-btn"
+                    type="submit">
+                Logout
+            </button>
+
+        </form>
+
+    </header>
+
+    <main class="dashboard-container">
+
+        <div class="dashboard-header">
+
+            <div>
+                <h1>
+                    Welcome,
+                    <span th:text="${user.firstName}">
+                        User
+                    </span>
+                </h1>
+
+                <p>
+                    Here is your account information.
+                </p>
+            </div>
+
+        </div>
+
+        <div class="profile-grid">
+
+            <div class="profile-card">
+
+                <div class="avatar"
+                     th:text="${#strings.substring(user.firstName, 0, 1).toUpperCase()}">
+                    U
+                </div>
+
+                <h2
+                        th:text="${user.firstName + ' ' + user.lastName}">
+                    User Name
+                </h2>
+
+                <p th:text="${user.email}">
+                    user@example.com
+                </p>
+
+                <br>
+
+                <div>
+
+                    <span class="role-badge"
+                          th:each="role : ${user.roles}"
+                          th:text="${role.name}">
+                        ROLE_USER
+                    </span>
+
+                </div>
+
+            </div>
+
+            <div class="info-card">
+
+                <div class="card-header">
+
+                    <h2>Account information</h2>
+
+                </div>
+
+                <div class="info-row">
+
+                    <span class="info-label">
+                        User ID
+                    </span>
+
+                    <span class="info-value"
+                          th:text="${user.id}">
+                        1
+                    </span>
+
+                </div>
+
+                <div class="info-row">
+
+                    <span class="info-label">
+                        First name
+                    </span>
+
+                    <span class="info-value"
+                          th:text="${user.firstName}">
+                        Eddy
+                    </span>
+
+                </div>
+
+                <div class="info-row">
+
+                    <span class="info-label">
+                        Last name
+                    </span>
+
+                    <span class="info-value"
+                          th:text="${user.lastName}">
+                        User
+                    </span>
+
+                </div>
+
+                <div class="info-row">
+
+                    <span class="info-label">
+                        Email
+                    </span>
+
+                    <span class="info-value"
+                          th:text="${user.email}">
+                        user@example.com
+                    </span>
+
+                </div>
+
+                <div class="info-row">
+
+                    <span class="info-label">
+                        Roles
+                    </span>
+
+                    <span>
+
+                        <span class="role-badge"
+                              th:each="role : ${user.roles}"
+                              th:text="${role.name}">
+                            ROLE_USER
+                        </span>
+
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+</div>
+
+</body>
+</html>

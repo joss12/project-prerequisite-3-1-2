@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Admin Dashboard</title>
+
+    <link rel="stylesheet"
+          th:href="@{/css/style.css}">
+</head>
+
+<body>
+
+<div class="dashboard">
+
+    <header class="topbar">
+
+        <div class="topbar-left">
+
+            <div class="brand">
+                Habsida<span>.</span>
+            </div>
+
+            <div>
+                <div class="page-title">
+                    Admin Dashboard
+                </div>
+
+                <div class="page-subtitle">
+                    User management
+                </div>
+            </div>
+
+        </div>
+
+        <form class="logout-form"
+              th:action="@{/logout}"
+              method="post">
+
+            <button class="logout-btn"
+                    type="submit">
+                Logout
+            </button>
+
+        </form>
+
+    </header>
+
+    <main class="dashboard-container">
+
+        <div class="dashboard-header">
+
+            <div>
+                <h1>Overview</h1>
+
+                <p>
+                    Manage users and their access roles.
+                </p>
+            </div>
+
+            <a class="btn btn-primary"
+               th:href="@{/admin/new}">
+                + Add user
+            </a>
+
+        </div>
+
+        <div class="stats">
+
+            <div class="stat-card">
+
+                <div class="stat-label">
+                    Total users
+                </div>
+
+                <div class="stat-value"
+                     th:text="${users.size()}">
+                    0
+                </div>
+
+            </div>
+
+            <div class="stat-card">
+
+                <div class="stat-label">
+                    Access control
+                </div>
+
+                <div class="stat-value">
+                    RBAC
+                </div>
+
+            </div>
+
+            <div class="stat-card">
+
+                <div class="stat-label">
+                    Authentication
+                </div>
+
+                <div class="stat-value">
+                    Secure
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="card">
+
+            <div class="card-header">
+
+                <h2>Users</h2>
+
+                <span class="page-subtitle">
+                    Registered accounts
+                </span>
+
+            </div>
+
+            <div class="table-wrapper">
+
+                <table>
+
+                    <thead>
+
+                    <tr>
+                        <th>ID</th>
+                        <th>User</th>
+                        <th>Email</th>
+                        <th>Roles</th>
+                        <th>Actions</th>
+                    </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                    <tr th:each="user : ${users}">
+
+                        <td th:text="${user.id}">
+                            1
+                        </td>
+
+                        <td>
+                            <strong
+                                    th:text="${user.firstName + ' ' + user.lastName}">
+                                Admin User
+                            </strong>
+                        </td>
+
+                        <td th:text="${user.email}">
+                            admin@example.com
+                        </td>
+
+                        <td>
+
+                            <span class="role-badge"
+                                  th:each="role : ${user.roles}"
+                                  th:text="${role.name}">
+                                ROLE_ADMIN
+                            </span>
+
+                        </td>
+
+                        <td>
+
+                            <div class="action-group">
+
+                                <a class="action-link"
+                                   th:href="@{/admin/edit/{id}(id=${user.id})}">
+                                    Edit
+                                </a>
+
+                                <form
+                                        th:action="@{/admin/delete/{id}(id=${user.id})}"
+                                        method="post">
+
+                                    <button class="action-delete"
+                                            type="submit">
+                                        Delete
+                                    </button>
+
+                                </form>
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </main>
+
+</div>
+
+</body>
+</html>

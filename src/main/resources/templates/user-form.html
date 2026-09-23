@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>User Form</title>
+
+    <link rel="stylesheet"
+          th:href="@{/css/style.css}">
+</head>
+
+<body>
+
+<div class="dashboard">
+
+    <header class="topbar">
+
+        <div class="topbar-left">
+
+            <div class="brand">
+                Habsida<span>.</span>
+            </div>
+
+            <div>
+                <div class="page-title">
+                    User Management
+                </div>
+
+                <div class="page-subtitle">
+                    Create or edit account
+                </div>
+            </div>
+
+        </div>
+
+        <form class="logout-form"
+              th:action="@{/logout}"
+              method="post">
+
+            <button class="logout-btn"
+                    type="submit">
+                Logout
+            </button>
+
+        </form>
+
+    </header>
+
+    <main class="dashboard-container">
+
+        <div class="dashboard-header">
+
+            <div>
+                <h1 th:text="${user.id == null
+                    ? 'Create user'
+                    : 'Edit user'}">
+                    Create user
+                </h1>
+
+                <p>
+                    Configure account information and roles.
+                </p>
+            </div>
+
+        </div>
+
+        <div class="form-card">
+
+            <form th:action="@{/admin/save}"
+                  th:object="${user}"
+                  method="post">
+
+                <input type="hidden"
+                       th:field="*{id}">
+
+                <div class="form-group">
+
+                    <label for="firstName">
+                        First name
+                    </label>
+
+                    <input id="firstName"
+                           type="text"
+                           th:field="*{firstName}">
+
+                    <span class="error"
+                          th:if="${#fields.hasErrors('firstName')}"
+                          th:errors="*{firstName}">
+                    </span>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label for="lastName">
+                        Last name
+                    </label>
+
+                    <input id="lastName"
+                           type="text"
+                           th:field="*{lastName}">
+
+                    <span class="error"
+                          th:if="${#fields.hasErrors('lastName')}"
+                          th:errors="*{lastName}">
+                    </span>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label for="email">
+                        Email
+                    </label>
+
+                    <input id="email"
+                           type="email"
+                           th:field="*{email}">
+
+                    <span class="error"
+                          th:if="${#fields.hasErrors('email')}"
+                          th:errors="*{email}">
+                    </span>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label for="password">
+                        Password
+                    </label>
+
+                    <input id="password"
+                           type="password"
+                           name="password">
+
+                    <span class="page-subtitle"
+                          th:if="${user.id != null}">
+                        Leave blank to keep the current password.
+                    </span>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>
+                        Roles
+                    </label>
+
+                    <div class="roles-box">
+
+                        <label class="role-option"
+                               th:each="role : ${roles}">
+
+                            <input type="checkbox"
+                                   th:field="*{roles}"
+                                   th:value="${role.id}">
+
+                            <span th:text="${role.name}">
+                                ROLE_USER
+                            </span>
+
+                        </label>
+
+                    </div>
+
+                </div>
+
+                <div class="form-actions">
+
+                    <button class="btn btn-primary"
+                            type="submit">
+                        Save user
+                    </button>
+
+                    <a class="btn btn-secondary"
+                       th:href="@{/admin}">
+                        Cancel
+                    </a>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </main>
+
+</div>
+
+</body>
+</html>
