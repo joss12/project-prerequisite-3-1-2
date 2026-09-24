@@ -35,6 +35,7 @@ public class AdminController {
     public String newUser(Model model) {
         model.addAttribute("user", new User());
         model.addAttribute("roles", roleRepository.findAll());
+
         return "user-form";
     }
 
@@ -51,8 +52,17 @@ public class AdminController {
                     "errorMessage",
                     "User not found"
             );
+
             return "redirect:/admin";
         }
+
+        /*
+         * Do not send the encoded password to the form.
+         *
+         * An empty password during editing means:
+         * "keep the current password".
+         */
+        user.setPassword("");
 
         model.addAttribute("user", user);
         model.addAttribute("roles", roleRepository.findAll());
@@ -66,8 +76,31 @@ public class AdminController {
             BindingResult bindingResult,
             Model model
     ) {
+
+        /*
+         * Password is mandatory when creating a new user.
+         *
+         * During editing, an empty password is allowed
+         * because it means the existing password should
+         * remain unchanged.
+         */
+        if (user.getId() == null &&
+                (user.getPassword() == null ||
+                        user.getPassword().isBlank())) {
+
+            bindingResult.rejectValue(
+                    "password",
+                    "password.required",
+                    "Password is required"
+            );
+        }
+
         if (bindingResult.hasErrors()) {
-            model.addAttribute("roles", roleRepository.findAll());
+            model.addAttribute(
+                    "roles",
+                    roleRepository.findAll()
+            );
+
             return "user-form";
         }
 
@@ -92,6 +125,7 @@ public class AdminController {
                     "errorMessage",
                     "User not found"
             );
+
             return "redirect:/admin";
         }
 

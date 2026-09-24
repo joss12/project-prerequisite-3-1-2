@@ -34,17 +34,36 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional(readOnly = true)
     public User getUserById(Long id) {
-        return userRepository.findById(id).orElse(null);
+        return userRepository.findById(id)
+                .orElse(null);
     }
 
     @Override
     public void saveUser(User user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+
+        /*
+         * Defensive validation:
+         * a newly-created account must always have
+         * a nonblank password.
+         */
+        if (user.getPassword() == null ||
+                user.getPassword().isBlank()) {
+
+            throw new IllegalArgumentException(
+                    "Password is required when creating a user"
+            );
+        }
+
+        user.setPassword(
+                passwordEncoder.encode(user.getPassword())
+        );
+
         userRepository.save(user);
     }
 
     @Override
     public void updateUser(User user) {
+
         User existingUser = userRepository.findById(user.getId())
                 .orElse(null);
 
@@ -57,9 +76,20 @@ public class UserServiceImpl implements UserService {
         existingUser.setEmail(user.getEmail());
         existingUser.setRoles(user.getRoles());
 
-        if (user.getPassword() != null && !user.getPassword().isBlank()) {
+        /*
+         * Blank password during editing means:
+         * keep the current password.
+         *
+         * Only encode and replace the password when
+         * the administrator entered a new one.
+         */
+        if (user.getPassword() != null &&
+                !user.getPassword().isBlank()) {
+
             existingUser.setPassword(
-                    passwordEncoder.encode(user.getPassword())
+                    passwordEncoder.encode(
+                            user.getPassword()
+                    )
             );
         }
 

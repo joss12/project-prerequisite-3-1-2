@@ -20,20 +20,41 @@ public class User implements UserDetails {
     private Long id;
 
     @NotBlank(message = "First name is required")
-    @Size(min = 2, max = 50, message = "First name must between 2 and 50 characters")
+    @Size(
+            min = 2,
+            max = 50,
+            message = "First name must be between 2 and 50 characters"
+    )
     @Column(name = "first_name", nullable = false)
     private String firstName;
 
     @NotBlank(message = "Last name is required")
-    @Size(min = 2, max = 50, message = "Last name be between 2 and 50 characters")
+    @Size(
+            min = 2,
+            max = 50,
+            message = "Last name must be between 2 and 50 characters"
+    )
     @Column(name = "last_name", nullable = false)
     private String lastName;
 
     @NotBlank(message = "Email is required")
     @Email(message = "Enter a valid email address")
-    @Column(name = "email", nullable = false, unique = true)
+    @Column(
+            name = "email",
+            nullable = false,
+            unique = true
+    )
     private String email;
 
+    /*
+     * Do NOT use @NotBlank here.
+     *
+     * A blank password is valid during editing because
+     * it means "keep the existing password".
+     *
+     * Creation validation is handled by AdminController
+     * and protected again inside UserServiceImpl.
+     */
     @Column(name = "password", nullable = false)
     private String password;
 
@@ -43,47 +64,52 @@ public class User implements UserDetails {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
-
     private Set<Role> roles = new HashSet<>();
 
-    public User(){}
+    public User() {
+    }
 
-    public User(String firstName, String lastName, String email, String password){
+    public User(
+            String firstName,
+            String lastName,
+            String email,
+            String password
+    ) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.password = password;
     }
 
-    public Long getId(){
+    public Long getId() {
         return id;
     }
 
-    public void setId(Long id){
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public String getFirstName(){
+    public String getFirstName() {
         return firstName;
     }
 
-    public void setFirstName(String firstName){
+    public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
 
-    public String getLastName(){
+    public String getLastName() {
         return lastName;
     }
 
-    public void setLastName(String lastName){
+    public void setLastName(String lastName) {
         this.lastName = lastName;
     }
 
-    public String getEmail(){
+    public String getEmail() {
         return email;
     }
 
-    public void setEmail(String email){
+    public void setEmail(String email) {
         this.email = email;
     }
 
@@ -113,6 +139,4 @@ public class User implements UserDetails {
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
     }
-
-
 }
