@@ -9,202 +9,246 @@
 
     <title>User Form</title>
 
-    <link rel="stylesheet"
-          th:href="@{/css/style.css}">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+          rel="stylesheet">
 </head>
 
-<body>
+<body class="bg-light">
 
-<div class="dashboard">
+<!-- Navbar -->
+<nav class="navbar navbar-dark bg-dark">
+    <div class="container">
 
-    <header class="topbar">
+        <div class="d-flex align-items-center gap-3">
 
-        <div class="topbar-left">
+            <a class="navbar-brand fw-bold mb-0"
+               th:href="@{/admin}">
+                Habsida.
+            </a>
 
-            <div class="brand">
-                Habsida<span>.</span>
-            </div>
-
-            <div>
-                <div class="page-title">
-                    User Management
-                </div>
-
-                <div class="page-subtitle">
-                    Create or edit account
-                </div>
-            </div>
+            <span class="navbar-text text-light">
+                User Management
+            </span>
 
         </div>
 
-        <form class="logout-form"
-              th:action="@{/logout}"
-              method="post">
+        <form th:action="@{/logout}"
+              method="post"
+              class="m-0">
 
-            <button class="logout-btn"
+            <button class="btn btn-outline-light btn-sm"
                     type="submit">
                 Logout
             </button>
 
         </form>
 
-    </header>
+    </div>
+</nav>
 
-    <main class="dashboard-container">
 
-        <div class="dashboard-header">
+<!-- Main -->
+<main class="container py-5">
 
-            <div>
-                <h1 th:text="${user.id == null
+    <div class="row justify-content-center">
+
+        <div class="col-lg-7 col-xl-6">
+
+            <!-- Page heading -->
+            <div class="mb-4">
+
+                <h1 class="fw-bold"
+                    th:text="${user.id == null
                     ? 'Create user'
                     : 'Edit user'}">
                     Create user
                 </h1>
 
-                <p>
+                <p class="text-secondary mb-0">
                     Configure account information and roles.
                 </p>
+
+            </div>
+
+
+            <!-- Form card -->
+            <div class="card border-0 shadow-sm">
+
+                <div class="card-body p-4 p-md-5">
+
+                    <form th:action="@{/admin/save}"
+                          th:object="${user}"
+                          method="post">
+
+                        <!-- User ID -->
+                        <input type="hidden"
+                               th:field="*{id}">
+
+
+                        <!-- First name -->
+                        <div class="mb-3">
+
+                            <label for="firstName"
+                                   class="form-label">
+                                First name
+                            </label>
+
+                            <input id="firstName"
+                                   type="text"
+                                   class="form-control"
+                                   th:field="*{firstName}"
+                                   th:classappend="${#fields.hasErrors('firstName')}
+                                   ? 'is-invalid' : ''">
+
+                            <div class="invalid-feedback"
+                                 th:if="${#fields.hasErrors('firstName')}"
+                                 th:errors="*{firstName}">
+                                First name error
+                            </div>
+
+                        </div>
+
+
+                        <!-- Last name -->
+                        <div class="mb-3">
+
+                            <label for="lastName"
+                                   class="form-label">
+                                Last name
+                            </label>
+
+                            <input id="lastName"
+                                   type="text"
+                                   class="form-control"
+                                   th:field="*{lastName}"
+                                   th:classappend="${#fields.hasErrors('lastName')}
+                                   ? 'is-invalid' : ''">
+
+                            <div class="invalid-feedback"
+                                 th:if="${#fields.hasErrors('lastName')}"
+                                 th:errors="*{lastName}">
+                                Last name error
+                            </div>
+
+                        </div>
+
+
+                        <!-- Email -->
+                        <div class="mb-3">
+
+                            <label for="email"
+                                   class="form-label">
+                                Email
+                            </label>
+
+                            <input id="email"
+                                   type="email"
+                                   class="form-control"
+                                   th:field="*{email}"
+                                   th:classappend="${#fields.hasErrors('email')}
+                                   ? 'is-invalid' : ''">
+
+                            <div class="invalid-feedback"
+                                 th:if="${#fields.hasErrors('email')}"
+                                 th:errors="*{email}">
+                                Email error
+                            </div>
+
+                        </div>
+
+
+                        <!-- Password -->
+                        <div class="mb-3">
+
+                            <label for="password"
+                                   class="form-label">
+                                Password
+                            </label>
+
+                            <input id="password"
+                                   type="password"
+                                   class="form-control"
+                                   th:field="*{password}"
+                                   autocomplete="new-password"
+                                   th:classappend="${#fields.hasErrors('password')}
+                                   ? 'is-invalid' : ''">
+
+                            <div class="invalid-feedback"
+                                 th:if="${#fields.hasErrors('password')}"
+                                 th:errors="*{password}">
+                                Password error
+                            </div>
+
+                            <div class="form-text"
+                                 th:if="${user.id != null}">
+                                Leave blank to keep the current password.
+                            </div>
+
+                        </div>
+
+
+                        <!-- Roles -->
+                        <div class="mb-4">
+
+                            <label class="form-label">
+                                Roles
+                            </label>
+
+                            <div class="border rounded p-3 bg-light">
+
+                                <div class="form-check mb-2"
+                                     th:each="role : ${roles}">
+
+                                    <input class="form-check-input"
+                                           type="checkbox"
+                                           th:field="*{roles}"
+                                           th:value="${role.id}">
+
+                                    <label class="form-check-label"
+                                           th:for="${#ids.prev('roles')}"
+                                           th:text="${role.name}">
+                                        ROLE_USER
+                                    </label>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- Actions -->
+                        <div class="d-flex gap-2">
+
+                            <button class="btn btn-primary"
+                                    type="submit">
+                                Save user
+                            </button>
+
+                            <a class="btn btn-outline-secondary"
+                               th:href="@{/admin}">
+                                Cancel
+                            </a>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
             </div>
 
         </div>
 
-        <div class="form-card">
+    </div>
 
-            <form th:action="@{/admin/save}"
-                  th:object="${user}"
-                  method="post">
-
-                <input type="hidden"
-                       th:field="*{id}">
+</main>
 
 
-                <div class="form-group">
-
-                    <label for="firstName">
-                        First name
-                    </label>
-
-                    <input id="firstName"
-                           type="text"
-                           th:field="*{firstName}">
-
-                    <span class="error"
-                          th:if="${#fields.hasErrors('firstName')}"
-                          th:errors="*{firstName}">
-                    </span>
-
-                </div>
-
-
-                <div class="form-group">
-
-                    <label for="lastName">
-                        Last name
-                    </label>
-
-                    <input id="lastName"
-                           type="text"
-                           th:field="*{lastName}">
-
-                    <span class="error"
-                          th:if="${#fields.hasErrors('lastName')}"
-                          th:errors="*{lastName}">
-                    </span>
-
-                </div>
-
-
-                <div class="form-group">
-
-                    <label for="email">
-                        Email
-                    </label>
-
-                    <input id="email"
-                           type="email"
-                           th:field="*{email}">
-
-                    <span class="error"
-                          th:if="${#fields.hasErrors('email')}"
-                          th:errors="*{email}">
-                    </span>
-
-                </div>
-
-
-                <div class="form-group">
-
-                    <label for="password">
-                        Password
-                    </label>
-
-                    <input id="password"
-                           type="password"
-                           th:field="*{password}"
-                           autocomplete="new-password">
-
-
-                    <span class="error"
-                          th:if="${#fields.hasErrors('password')}"
-                          th:errors="*{password}">
-                    </span>
-
-
-                    <span class="page-subtitle"
-                          th:if="${user.id != null}">
-                        Leave blank to keep the current password.
-                    </span>
-
-                </div>
-
-
-                <div class="form-group">
-
-                    <label>
-                        Roles
-                    </label>
-
-                    <div class="roles-box">
-
-                        <label class="role-option"
-                               th:each="role : ${roles}">
-
-                            <input type="checkbox"
-                                   th:field="*{roles}"
-                                   th:value="${role.id}">
-
-                            <span th:text="${role.name}">
-                                ROLE_USER
-                            </span>
-
-                        </label>
-
-                    </div>
-
-                </div>
-
-
-                <div class="form-actions">
-
-                    <button class="btn btn-primary"
-                            type="submit">
-                        Save user
-                    </button>
-
-                    <a class="btn btn-secondary"
-                       th:href="@{/admin}">
-                        Cancel
-                    </a>
-
-                </div>
-
-            </form>
-
-        </div>
-
-    </main>
-
-</div>
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js">
+</script>
 
 </body>
 </html>

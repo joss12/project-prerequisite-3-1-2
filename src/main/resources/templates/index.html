@@ -9,53 +9,62 @@
 
     <title>Habsida Security</title>
 
-    <link rel="stylesheet"
-          th:href="@{/css/style.css}">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+          rel="stylesheet">
 </head>
 
-<body>
+<body class="bg-light">
 
-<div class="landing">
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
 
-    <nav class="landing-nav">
+        <a class="navbar-brand fw-bold"
+           th:href="@{/}">
+            Habsida.
+        </a>
 
-        <div class="brand">
-            Habsida<span>.</span>
-        </div>
-
-        <a class="nav-login"
+        <a class="btn btn-outline-light"
            th:href="@{/login}">
             Sign in
         </a>
 
-    </nav>
+    </div>
+</nav>
 
-    <main class="hero">
 
-        <div class="hero-content">
+<!-- Hero -->
+<main class="container py-5">
 
-            <div class="hero-badge">
+    <div class="row justify-content-center text-center py-5">
+
+        <div class="col-lg-8">
+
+            <span class="badge text-bg-primary mb-3">
                 Spring Security • Role Based Access
-            </div>
+            </span>
 
-            <h1>
+            <h1 class="display-4 fw-bold mb-3">
                 Secure access.
-                <span>Simple management.</span>
+                <span class="text-primary">
+                    Simple management.
+                </span>
             </h1>
 
-            <p>
+            <p class="lead text-secondary mb-4">
                 A role-based user management platform built with
                 Spring Boot, Spring Security, JPA, MySQL and Thymeleaf.
             </p>
 
-            <div class="hero-actions">
+            <div class="d-flex justify-content-center gap-2">
 
-                <a class="btn btn-primary"
+                <a class="btn btn-primary btn-lg"
                    th:href="@{/login}">
                     Get started
                 </a>
 
-                <a class="btn btn-secondary"
+                <a class="btn btn-outline-secondary btn-lg"
                    href="#features">
                     Explore features
                 </a>
@@ -64,59 +73,105 @@
 
         </div>
 
-    </main>
+    </div>
 
-    <section class="features"
-             id="features">
+</main>
 
-        <div class="feature-card">
 
-            <div class="feature-icon">
-                A
+<!-- Features -->
+<section class="container pb-5"
+         id="features">
+
+    <div class="row g-4">
+
+        <!-- Admin -->
+        <div class="col-md-4">
+
+            <div class="card h-100 shadow-sm border-0">
+
+                <div class="card-body p-4">
+
+                    <span class="badge text-bg-primary mb-3">
+                        ADMIN
+                    </span>
+
+                    <h3 class="h5">
+                        Admin Management
+                    </h3>
+
+                    <p class="text-secondary mb-0">
+                        Administrators can create, edit and delete
+                        users while managing their roles.
+                    </p>
+
+                </div>
+
             </div>
-
-            <h3>Admin Management</h3>
-
-            <p>
-                Administrators can create, edit and delete
-                users while managing their roles.
-            </p>
 
         </div>
 
-        <div class="feature-card">
 
-            <div class="feature-icon">
-                U
+        <!-- User -->
+        <div class="col-md-4">
+
+            <div class="card h-100 shadow-sm border-0">
+
+                <div class="card-body p-4">
+
+                    <span class="badge text-bg-success mb-3">
+                        USER
+                    </span>
+
+                    <h3 class="h5">
+                        User Dashboard
+                    </h3>
+
+                    <p class="text-secondary mb-0">
+                        Authenticated users can access their own
+                        profile and account information.
+                    </p>
+
+                </div>
+
             </div>
-
-            <h3>User Dashboard</h3>
-
-            <p>
-                Authenticated users can access their own
-                profile and account information.
-            </p>
 
         </div>
 
-        <div class="feature-card">
 
-            <div class="feature-icon">
-                S
+        <!-- Security -->
+        <div class="col-md-4">
+
+            <div class="card h-100 shadow-sm border-0">
+
+                <div class="card-body p-4">
+
+                    <span class="badge text-bg-dark mb-3">
+                        SECURITY
+                    </span>
+
+                    <h3 class="h5">
+                        Secure Authentication
+                    </h3>
+
+                    <p class="text-secondary mb-0">
+                        Database-backed authentication with BCrypt
+                        password hashing and role-based authorization.
+                    </p>
+
+                </div>
+
             </div>
-
-            <h3>Secure Authentication</h3>
-
-            <p>
-                Database-backed authentication with BCrypt
-                password hashing and role-based authorization.
-            </p>
 
         </div>
 
-    </section>
+    </div>
 
-</div>
+</section>
+
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js">
+</script>
 
 </body>
 </html>

@@ -9,173 +9,116 @@
 
     <title>User Dashboard</title>
 
-    <link rel="stylesheet"
-          th:href="@{/css/style.css}">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+          rel="stylesheet">
 </head>
 
-<body>
+<body class="bg-light">
 
-<div class="dashboard">
+<!-- Navbar -->
+<nav class="navbar navbar-dark bg-dark">
+    <div class="container">
 
-    <header class="topbar">
+        <div class="d-flex align-items-center gap-3">
 
-        <div class="topbar-left">
+            <a class="navbar-brand fw-bold mb-0"
+               th:href="@{/user}">
+                Habsida.
+            </a>
 
-            <div class="brand">
-                Habsida<span>.</span>
-            </div>
-
-            <div>
-                <div class="page-title">
-                    User Dashboard
-                </div>
-
-                <div class="page-subtitle">
-                    Your account
-                </div>
-            </div>
+            <span class="navbar-text text-light">
+                User Dashboard
+            </span>
 
         </div>
 
-        <form class="logout-form"
-              th:action="@{/logout}"
-              method="post">
+        <form th:action="@{/logout}"
+              method="post"
+              class="m-0">
 
-            <button class="logout-btn"
+            <button class="btn btn-outline-light btn-sm"
                     type="submit">
                 Logout
             </button>
 
         </form>
 
-    </header>
+    </div>
+</nav>
 
-    <main class="dashboard-container">
 
-        <div class="dashboard-header">
+<!-- Main -->
+<main class="container py-5">
 
-            <div>
-                <h1>
-                    Welcome,
-                    <span th:text="${user.firstName}">
-                        User
-                    </span>
-                </h1>
+    <!-- Welcome -->
+    <div class="mb-4">
 
-                <p>
-                    Here is your account information.
-                </p>
-            </div>
+        <h1 class="fw-bold mb-1">
+            Welcome,
+            <span th:text="${user.firstName}">
+                User
+            </span>
+        </h1>
 
-        </div>
+        <p class="text-secondary mb-0">
+            Here is your account information.
+        </p>
 
-        <div class="profile-grid">
+    </div>
 
-            <div class="profile-card">
 
-                <div class="avatar"
-                     th:text="${#strings.substring(user.firstName, 0, 1).toUpperCase()}">
-                    U
-                </div>
+    <div class="row g-4">
 
-                <h2
+        <!-- Profile -->
+        <div class="col-lg-4">
+
+            <div class="card border-0 shadow-sm h-100">
+
+                <div class="card-body text-center p-4">
+
+                    <!-- Avatar -->
+                    <div class="bg-primary text-white
+                                rounded-circle
+                                d-flex align-items-center
+                                justify-content-center
+                                mx-auto mb-3"
+                         style="width: 80px; height: 80px;">
+
+                        <span class="fs-2 fw-bold"
+                              th:text="${#strings.substring(
+                              user.firstName, 0, 1
+                              ).toUpperCase()}">
+                            U
+                        </span>
+
+                    </div>
+
+
+                    <!-- Name -->
+                    <h2 class="h4 fw-bold mb-1"
                         th:text="${user.firstName + ' ' + user.lastName}">
-                    User Name
-                </h2>
+                        User Name
+                    </h2>
 
-                <p th:text="${user.email}">
-                    user@example.com
-                </p>
 
-                <br>
-
-                <div>
-
-                    <span class="role-badge"
-                          th:each="role : ${user.roles}"
-                          th:text="${role.name}">
-                        ROLE_USER
-                    </span>
-
-                </div>
-
-            </div>
-
-            <div class="info-card">
-
-                <div class="card-header">
-
-                    <h2>Account information</h2>
-
-                </div>
-
-                <div class="info-row">
-
-                    <span class="info-label">
-                        User ID
-                    </span>
-
-                    <span class="info-value"
-                          th:text="${user.id}">
-                        1
-                    </span>
-
-                </div>
-
-                <div class="info-row">
-
-                    <span class="info-label">
-                        First name
-                    </span>
-
-                    <span class="info-value"
-                          th:text="${user.firstName}">
-                        Eddy
-                    </span>
-
-                </div>
-
-                <div class="info-row">
-
-                    <span class="info-label">
-                        Last name
-                    </span>
-
-                    <span class="info-value"
-                          th:text="${user.lastName}">
-                        User
-                    </span>
-
-                </div>
-
-                <div class="info-row">
-
-                    <span class="info-label">
-                        Email
-                    </span>
-
-                    <span class="info-value"
-                          th:text="${user.email}">
+                    <!-- Email -->
+                    <p class="text-secondary mb-3"
+                       th:text="${user.email}">
                         user@example.com
-                    </span>
+                    </p>
 
-                </div>
 
-                <div class="info-row">
+                    <!-- Roles -->
+                    <div>
 
-                    <span class="info-label">
-                        Roles
-                    </span>
-
-                    <span>
-
-                        <span class="role-badge"
+                        <span class="badge text-bg-primary me-1"
                               th:each="role : ${user.roles}"
                               th:text="${role.name}">
                             ROLE_USER
                         </span>
 
-                    </span>
+                    </div>
 
                 </div>
 
@@ -183,9 +126,117 @@
 
         </div>
 
-    </main>
 
-</div>
+        <!-- Account information -->
+        <div class="col-lg-8">
+
+            <div class="card border-0 shadow-sm h-100">
+
+                <div class="card-header bg-white py-3">
+
+                    <h2 class="h5 mb-0">
+                        Account information
+                    </h2>
+
+                </div>
+
+
+                <div class="card-body p-0">
+
+                    <!-- ID -->
+                    <div class="d-flex justify-content-between
+                                border-bottom p-3">
+
+                        <span class="text-secondary">
+                            User ID
+                        </span>
+
+                        <strong th:text="${user.id}">
+                            1
+                        </strong>
+
+                    </div>
+
+
+                    <!-- First name -->
+                    <div class="d-flex justify-content-between
+                                border-bottom p-3">
+
+                        <span class="text-secondary">
+                            First name
+                        </span>
+
+                        <strong th:text="${user.firstName}">
+                            Eddy
+                        </strong>
+
+                    </div>
+
+
+                    <!-- Last name -->
+                    <div class="d-flex justify-content-between
+                                border-bottom p-3">
+
+                        <span class="text-secondary">
+                            Last name
+                        </span>
+
+                        <strong th:text="${user.lastName}">
+                            User
+                        </strong>
+
+                    </div>
+
+
+                    <!-- Email -->
+                    <div class="d-flex justify-content-between
+                                border-bottom p-3">
+
+                        <span class="text-secondary">
+                            Email
+                        </span>
+
+                        <strong th:text="${user.email}">
+                            user@example.com
+                        </strong>
+
+                    </div>
+
+
+                    <!-- Roles -->
+                    <div class="d-flex justify-content-between
+                                align-items-center p-3">
+
+                        <span class="text-secondary">
+                            Roles
+                        </span>
+
+                        <div>
+
+                            <span class="badge text-bg-primary me-1"
+                                  th:each="role : ${user.roles}"
+                                  th:text="${role.name}">
+                                ROLE_USER
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</main>
+
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js">
+</script>
 
 </body>
 </html>
