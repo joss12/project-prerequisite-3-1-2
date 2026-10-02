@@ -41,11 +41,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void saveUser(User user) {
 
-        /*
-         * Defensive validation:
-         * a newly-created account must always have
-         * a nonblank password.
-         */
+
         if (user.getPassword() == null ||
                 user.getPassword().isBlank()) {
 
@@ -73,16 +69,11 @@ public class UserServiceImpl implements UserService {
 
         existingUser.setFirstName(user.getFirstName());
         existingUser.setLastName(user.getLastName());
+        existingUser.setAge(user.getAge());
         existingUser.setEmail(user.getEmail());
         existingUser.setRoles(user.getRoles());
 
-        /*
-         * Blank password during editing means:
-         * keep the current password.
-         *
-         * Only encode and replace the password when
-         * the administrator entered a new one.
-         */
+
         if (user.getPassword() != null &&
                 !user.getPassword().isBlank()) {
 

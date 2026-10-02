@@ -9,7 +9,6 @@
 
     <title>User Form</title>
 
-    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
           rel="stylesheet">
 </head>
@@ -55,7 +54,6 @@
 
         <div class="col-lg-7 col-xl-6">
 
-            <!-- Page heading -->
             <div class="mb-4">
 
                 <h1 class="fw-bold"
@@ -72,7 +70,6 @@
             </div>
 
 
-            <!-- Form card -->
             <div class="card border-0 shadow-sm">
 
                 <div class="card-body p-4 p-md-5">
@@ -130,6 +127,22 @@
                                  th:errors="*{lastName}">
                                 Last name error
                             </div>
+
+                        </div>
+
+
+                        <!-- Age -->
+                        <div class="mb-3">
+
+                            <label for="age"
+                                   class="form-label">
+                                Age
+                            </label>
+
+                            <input id="age"
+                                   type="number"
+                                   class="form-control"
+                                   th:field="*{age}">
 
                         </div>
 
@@ -246,7 +259,6 @@
 </main>
 
 
-<!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js">
 </script>
 

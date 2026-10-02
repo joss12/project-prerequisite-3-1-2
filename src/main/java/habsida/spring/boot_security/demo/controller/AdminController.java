@@ -10,6 +10,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.security.Principal;
+
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
@@ -26,64 +28,45 @@ public class AdminController {
     }
 
     @GetMapping
-    public String adminPage(Model model) {
-        model.addAttribute("users", userService.getAllUsers());
-        return "admin";
-    }
-
-    @GetMapping("/new")
-    public String newUser(Model model) {
-        model.addAttribute("user", new User());
-        model.addAttribute("roles", roleRepository.findAll());
-
-        return "user-form";
-    }
-
-    @GetMapping("/edit/{id}")
-    public String editUser(
-            @PathVariable Long id,
+    public String adminPage(
             Model model,
-            RedirectAttributes redirectAttributes
+            Principal principal
     ) {
-        User user = userService.getUserById(id);
+        User authenticatedUser =
+                (User) userService.loadUserByUsername(
+                        principal.getName()
+                );
 
-        if (user == null) {
-            redirectAttributes.addFlashAttribute(
-                    "errorMessage",
-                    "User not found"
-            );
+        model.addAttribute(
+                "users",
+                userService.getAllUsers()
+        );
 
-            return "redirect:/admin";
-        }
+        model.addAttribute(
+                "roles",
+                roleRepository.findAll()
+        );
 
-        /*
-         * Do not send the encoded password to the form.
-         *
-         * An empty password during editing means:
-         * "keep the current password".
-         */
-        user.setPassword("");
+        model.addAttribute(
+                "user",
+                new User()
+        );
 
-        model.addAttribute("user", user);
-        model.addAttribute("roles", roleRepository.findAll());
+        model.addAttribute(
+                "authenticatedUser",
+                authenticatedUser
+        );
 
-        return "user-form";
+        return "admin";
     }
 
     @PostMapping("/save")
     public String saveUser(
             @Valid @ModelAttribute("user") User user,
             BindingResult bindingResult,
-            Model model
+            Model model,
+            Principal principal
     ) {
-
-        /*
-         * Password is mandatory when creating a new user.
-         *
-         * During editing, an empty password is allowed
-         * because it means the existing password should
-         * remain unchanged.
-         */
         if (user.getId() == null &&
                 (user.getPassword() == null ||
                         user.getPassword().isBlank())) {
@@ -96,12 +79,28 @@ public class AdminController {
         }
 
         if (bindingResult.hasErrors()) {
+
+            User authenticatedUser =
+                    (User) userService.loadUserByUsername(
+                            principal.getName()
+                    );
+
+            model.addAttribute(
+                    "users",
+                    userService.getAllUsers()
+            );
+
             model.addAttribute(
                     "roles",
                     roleRepository.findAll()
             );
 
-            return "user-form";
+            model.addAttribute(
+                    "authenticatedUser",
+                    authenticatedUser
+            );
+
+            return "admin";
         }
 
         if (user.getId() == null) {
@@ -121,6 +120,7 @@ public class AdminController {
         User user = userService.getUserById(id);
 
         if (user == null) {
+
             redirectAttributes.addFlashAttribute(
                     "errorMessage",
                     "User not found"

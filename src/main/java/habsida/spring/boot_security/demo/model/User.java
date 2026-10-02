@@ -3,6 +3,7 @@ package habsida.spring.boot_security.demo.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -37,6 +38,10 @@ public class User implements UserDetails {
     @Column(name = "last_name", nullable = false)
     private String lastName;
 
+    @NotNull(message = "Age is required")
+    @Column(name = "age", nullable = false)
+    private Integer age;
+
     @NotBlank(message = "Email is required")
     @Email(message = "Enter a valid email address")
     @Column(
@@ -46,15 +51,6 @@ public class User implements UserDetails {
     )
     private String email;
 
-    /*
-     * Do NOT use @NotBlank here.
-     *
-     * A blank password is valid during editing because
-     * it means "keep the existing password".
-     *
-     * Creation validation is handled by AdminController
-     * and protected again inside UserServiceImpl.
-     */
     @Column(name = "password", nullable = false)
     private String password;
 
@@ -72,11 +68,13 @@ public class User implements UserDetails {
     public User(
             String firstName,
             String lastName,
+            Integer age,
             String email,
             String password
     ) {
         this.firstName = firstName;
         this.lastName = lastName;
+        this.age = age;
         this.email = email;
         this.password = password;
     }
@@ -103,6 +101,14 @@ public class User implements UserDetails {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public Integer getAge() {
+        return age;
+    }
+
+    public void setAge(Integer age) {
+        this.age = age;
     }
 
     public String getEmail() {
