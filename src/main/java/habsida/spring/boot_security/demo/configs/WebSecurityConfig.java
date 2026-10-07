@@ -14,7 +14,9 @@ public class WebSecurityConfig {
 
     private final SuccessUserHandler successUserHandler;
 
-    public WebSecurityConfig(SuccessUserHandler successUserHandler) {
+    public WebSecurityConfig(
+            SuccessUserHandler successUserHandler
+    ) {
         this.successUserHandler = successUserHandler;
     }
 
@@ -33,9 +35,22 @@ public class WebSecurityConfig {
                 .userDetailsService(userService)
 
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/admin/**").hasRole("ADMIN")
-                        .requestMatchers("/user").hasAnyRole("USER", "ADMIN")
-                        .anyRequest().authenticated()
+                        .requestMatchers(
+                                "/css/**",
+                                "/js/**",
+                                "/images/**"
+                        ).permitAll()
+
+                        .requestMatchers(
+                                "/admin/**",
+                                "/api/admin/**"
+                        ).hasRole("ADMIN")
+
+                        .requestMatchers("/user")
+                        .hasAnyRole("USER", "ADMIN")
+
+                        .anyRequest()
+                        .authenticated()
                 )
 
                 .formLogin(form -> form
